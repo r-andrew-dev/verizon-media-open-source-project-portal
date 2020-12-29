@@ -397,7 +397,7 @@ function getRepos(i) {
       url: `https://api.github.com/orgs/${orgList[i]}/repos`,
       type: `GET`,
       dataType: "json",
-      headers: {'Authorization': `token token`},
+      headers: {'Authorization': `token ${process.env.GH_KEY}`},
       success: (oData) => {
       console.log(oData)
       window._globals.allRepos = oData.concat(window._globals.allRepos)
