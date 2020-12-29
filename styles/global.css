@@ -1,5 +1,7 @@
 /*** Header ***/
-
+nav .nav-wrapper.custom {
+  background-color:  #000;
+}
 /* logo alignment */
 nav .brand-logo.logo {
   padding: 1rem;
@@ -9,6 +11,10 @@ nav .brand-logo.logo {
 /* fixed height for nav bar */
 nav {
   height: 84px !important;
+}
+
+a {
+  color: #D52B1E;
 }
 
 /* adjust title text size to nav bar */
@@ -85,6 +91,10 @@ nav {
   word-break: break-word;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.card-action.darken-1 {
+  background-color: #000;
 }
 
 /* underline card links */

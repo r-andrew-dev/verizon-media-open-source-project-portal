@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>InnerSource Project Portal</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Open Source Project Portal</title>
     <link rel="stylesheet" href="lib/materialize.min.css"/>
     <link rel="stylesheet" href="lib/material-icons.css"/>
     <link rel="stylesheet" href="styles/global.css"/>
@@ -11,13 +14,13 @@
   <body>
     <!-- header bar -->
     <nav>
-      <div class="nav-wrapper blue">
+      <div class="nav-wrapper custom">
         <a target="_blank" href="https://yourcompany.corp/innersource-landingpage" class="brand-logo logo">
           <!-- add a logo if needed
           <img src="images/logo.png" width="50" alt="InnerSource logo" data-position="right" data-tooltip="Show more information about InnerSource..." class="tooltipped">
           -->
         </a>
-        <span class="brand-logo center">InnerSource Project Portal<span id="header-text">Leverage, Reuse or Contribute to <span id="count"></span> InnerSource projects</span></span>
+        <span class="brand-logo center">Verizon Media Open Source Project Portal<span id="header-text">Leverage, Reuse or Contribute to <span id="count"></span> Open Source projects</span></span>
       </div>
     </nav>
 
@@ -35,7 +38,6 @@
 
         <div class="input-field col l3 m6 s6">
           <select id="sort">
-            <option value="score" selected>Activity</option>
             <option value="name">Name</option>
             <option value="full_name">Organization</option>
             <option value="stargazers_count">Stars</option>
@@ -120,15 +122,15 @@
                   <i class="small material-icons">share</i>
                   <span class="icon-subtitle">[[forks]]</span>
                 </div>
-                <div>
+                <!-- <div>
                   [[score]]
-                </div>
+                </div> -->
                 <div>
                   [[language]]
                 </div>
               </div>
             </div>
-            <div style="text-align: center; font-weight: bold;" class="blue card-action darken-1">
+            <div style="text-align: center; font-weight: bold;" class="card-action darken-1">
               <a class="white-text" href="[[contributeURL]]" target="_blank">CONTRIBUTE</a>
             </div>
           </div>
@@ -157,7 +159,7 @@
             </div></td>
             <td>[[score]]</td>
             <td>[[language]]</td>
-            <td class="hidePhone"><div style="text-align: center; font-weight: bold;" class="blue card-action darken-1">
+            <td class="hidePhone"><div style="text-align: center; font-weight: bold;" class="card-action darken-1">
               <a class="white-text" href="[[contributeURL]]" target="_blank">CONTRIBUTE</a>
             </div></td>
           </tr>
@@ -184,9 +186,9 @@
                 <i class="small material-icons">share</i>
                 <span class="icon-subtitle">[[forks]]</span>
               </div>
-              <div>
+              <!-- <div>
                 [[score]]
-              </div>
+              </div> -->
               <div>
                 [[language]]
               </div>
@@ -210,7 +212,7 @@
           <a href="#!" class="modal-close waves-effect btn-flat">x</a>
         </div>
         <div class="modal-footer">
-          <div class="blue card-action darken-1">
+          <div class="card-action darken-1">
             <a class="white-text" href="[[contributeURL]]" target="_blank">CONTRIBUTE</a>
           </div>
         </div>
@@ -235,10 +237,10 @@
     <!-- thirdparty libraries -->
     <script src="lib/jquery.min.js"></script>
     <script src="lib/materialize.min.js"></script>
-    <script src="lib/moment.min.js"></script>
+    <!-- <script src="lib/moment.min.js"></script> -->
     <script src="lib/seedrandom.min.js"></script>
 
     <!-- our scripts -->
-    <script src="scripts/index.js"></script>
+    <script src="scripts/index.js" type="module"></script>
   </body>
 </html>
