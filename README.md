@@ -9,7 +9,7 @@ This way, to ensure a repo is included just means the org itself needs to be in 
 
 ## Thirdparty
 
-We use the following open source frameworks to create the portal:
+We use the same frameworks as the above Inner Source portal: 
 
 * [jQuery](https://jquery.com/)
 * [Materialize](https://materializecss.com/)
@@ -19,4 +19,4 @@ We use the following open source frameworks to create the portal:
 
 ## Acknowledgements
 
-Thanks to [InnerSourceCommons Pattern Group](https://github.com/InnerSourceCommons/InnerSourcePatterns) for the feedback and great support.
+Thanks to [InnerSourceCommons Pattern Group](https://github.com/InnerSourceCommons/InnerSourcePatterns).
