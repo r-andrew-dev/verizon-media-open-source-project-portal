@@ -4,7 +4,7 @@ This is a version of the [Inner Source Portal](https://github.com/SAP/project-po
 
 We have removed the activity score completely, and rather than build a repos.json file, we ping the Github API on the fly to pull in all of our respository information. 
 
-This way, to ensure a repo is included just means the org itself needs to be in our orgList variale. 
+This way, to ensure a repo is included just means the org itself needs to be in our orgList variable. 
 
 
 ## Thirdparty
