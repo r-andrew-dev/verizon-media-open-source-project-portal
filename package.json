@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "main": "server.js",
   "scripts": {
-    "start": "http-server . -p8080 -c-1 -o public/index.html"
+    "start": "nodemon server.js"
   },
   "devDependencies": {
     "fs-extra": "^9.0.1",
@@ -33,6 +33,7 @@
     "material-icons": "^0.3.1",
     "materialize-css": "^1.0.0",
     "moment": "^2.29.0",
+    "node": "^15.4.0",
     "nodemon": "^2.0.6",
     "path": "^0.12.7",
     "seedrandom": "^3.0.5"

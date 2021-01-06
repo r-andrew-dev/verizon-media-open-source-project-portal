@@ -6,8 +6,6 @@ const key = require('./keys.js')
 
 githubKey = `${key.getKey()}`
 
-console.log(`Key' : ${key.getKey()}`)
-
 
 const orgList = ['yahoo', 'arkime', 'Verizon', 'VerizonAdPlatforms', 'VerizonDigital', 'VerizonMedia', 'aol', 'bindable-ui', 'bullet-db', 'denali-design', 'flurry', 'millennialmedia', 'screwdriver-cd', 'theparanoids', 'ultrabrew', 'vespa-engine']
 let totalRequestCount = orgList.length
