@@ -7,9 +7,9 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <title>Open Source Project Portal</title>
-    <link rel="stylesheet" href="lib/materialize.min.css"/>
-    <link rel="stylesheet" href="lib/material-icons.css"/>
-    <link rel="stylesheet" href="styles/global.css"/>
+    <link rel="stylesheet" type='text/css' href="lib/materialize.min.css"/>
+    <link rel="stylesheet" type='text/css' href="lib/material-icons.css"/>
+    <link rel="stylesheet" type='text/css' href="styles/global.css"/>
   </head>
   <body>
     <!-- header bar -->
@@ -83,14 +83,6 @@
         <!-- is filled dynamically -->
         <tbody id="rows"></tbody>
       </table>
-
-      <!-- add button-->
-      <div data-position="left" data-tooltip="Add a new InnerSource project to the Project Portal..." class="tooltipped fixed-action-btn">
-        <a target="_blank" href="https://yourcompany.corp/innersource-instructions" class="btn-floating btn-large orange">
-          <i class="large material-icons">add</i>
-        </a>
-      </div>
-    </div>
 
     <!-- modal placeholder -->
     <div id="modal-details" class="modal"></div>
@@ -241,6 +233,6 @@
     <script src="lib/seedrandom.min.js"></script>
 
     <!-- our scripts -->
-    <script src="scripts/index.js" type="module"></script>
+    <script type="module" src="index.js"></script>
   </body>
 </html>

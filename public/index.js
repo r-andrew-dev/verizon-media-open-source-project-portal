@@ -5,6 +5,29 @@ window._globals = {
   ignoreNextHashChange: undefined
 };
 
+$.get('/allRepos', (data, status) => {
+  window._globals.allRepos = data
+  $("#count").text(window._globals.allRepos.length ? window._globals.allRepos.length : 0);
+  fillLanguageFilter();
+  updateUI();
+});
+
+$("select#sort").on("change", function () {
+  sort(this.value);
+});
+
+$("select#filter").on("change", function () {
+  filter(this.value);
+});
+
+$("input#search").on("keyup", function () {
+  search(this.value);
+});
+
+$("input#display").on("change", function () {
+  display(this.checked ? "card" : "list");
+});
+
 // register events for updating the UI state based on the hash
 window.addEventListener("hashchange", updateUI);
 
@@ -385,67 +408,85 @@ function generateItem (sDisplay, oRepo) {
   return $(sHTML);
 }
 
-const orgList = ['Verizon', 'VerizonAdPlatforms', 'VerizonDigital', 'VerizonMedia', 'aol', 'bindable-ui', 'bullet-db', 'denali-design', 'flurry', 'millennialmedia', 'screwdriver-cd', 'theparanoids', 'ultrabrew', 'vespa-engine', 'yahoo', 'Arkime']
+// const orgList = ['yahoo', 'arkime', 'Verizon', 'VerizonAdPlatforms', 'VerizonDigital', 'VerizonMedia', 'aol', 'bindable-ui', 'bullet-db', 'denali-design', 'flurry', 'millennialmedia', 'screwdriver-cd', 'theparanoids', 'ultrabrew', 'vespa-engine']
 
-let totalRequestCount = 14;
-let executedRequestCount = 0;
+// let totalRequestCount = orgList.length
+// let executedRequestCount = 0;
 
 // load repos.json file and display the list of projects from it - should be re-tooled to do this rather than creating on the fly everytime ß
 
-function getRepos(i) {
- $.ajax({
-      url: `https://api.github.com/orgs/${orgList[i]}/repos`,
-      type: `GET`,
-      dataType: "json",
-      headers: {'Authorization': `token ${process.env.GH_KEY}`},
-      success: (oData) => {
-      console.log(oData)
-      window._globals.allRepos = oData.concat(window._globals.allRepos)
-      executedRequestCount++;
-      console.log(executedRequestCount)
-      console.log(totalRequestCount)
-      console.log(window._globals.allRepos);
-      if (totalRequestCount == executedRequestCount) {
-        window._globals.allRepos.pop();
-        window._globals.allRepos = window._globals.allRepos.filter(repo => repo.archived === false);
-        $("#count").text(window._globals.allRepos.length ? window._globals.allRepos.length : 0);
-        fillLanguageFilter();
-        updateUI();
+// function getRepos(i) {
+
+//   if (`${orgList[i]}` == 'yahoo') {
+//     console.log('making it here')
+//     $.ajax({
+//       url: `https://api.github.com/orgs/${orgList[i]}/repos?per_page=100&page=2`,
+//       type: `GET`,
+//       dataType: "json",
+//       headers: {'Authorization': `token  e2f49fa6877670b6479931bbd41324a636c4a5aa`},
+//       success: (oData) => {
+//       console.log(oData)
+//       window._globals.allRepos = oData.concat(window._globals.allRepos)
+//       }, error: (oHR, sStatus) => {
+//         console.log(oHR, sStatus);
+//       }
+//     })
+//   }
+
+//  $.ajax({
+//       url: `https://api.github.com/orgs/${orgList[i]}/repos?per_page=100&page=1`,
+//       type: `GET`,
+//       dataType: "json",
+//       headers: {'Authorization': `token  e2f49fa6877670b6479931bbd41324a636c4a5aa`},
+//       success: (oData) => {
+//       console.log(oData)
+//       window._globals.allRepos = oData.concat(window._globals.allRepos)
+//       executedRequestCount++;
+//       // console.log(executedRequestCount)
+//       // console.log(totalRequestCount)
+//       // console.log(window._globals.allRepos);
+
+//       if (totalRequestCount == executedRequestCount) {
+//         console.log('making it here');
+//         console.log("here are the repos " + window._globals.allRepos.length)
+//         window._globals.allRepos.pop();
+//         window._globals.allRepos = window._globals.allRepos.filter(repo => repo.archived === false);
+//         window._globals.allRepos = window._globals.allRepos.filter(repo => repo.private === false);
+//         $("#count").text(window._globals.allRepos.length ? window._globals.allRepos.length : 0);
+//         fillLanguageFilter();
+//         updateUI();
         
-      } else {
-        console.log ("this is breaking")
-    
-      }
-      },
-      error: (oHR, sStatus) => {
-        console.log(oHR, sStatus);
-      }
-    });
+//       } 
+      
+//       },
+//       error: (oHR, sStatus) => {
+//         console.log(oHR, sStatus);
+//       }
+//     });
 
-}
+// }
 
-for (let i=0; i < totalRequestCount; i++) {
-  getRepos(i)
-  console.log("running again")
-}
+// for (let i=0; i < totalRequestCount; i++) {
+//   getRepos(i)
+//   console.log("running again")
+// }
 
+  // $("select#sort").on("change", function () {
+  //   sort(this.value);
+  // });
 
-  $("select#sort").on("change", function () {
-    sort(this.value);
-  });
+  // $("select#filter").on("change", function () {
+  //   filter(this.value);
+  // });
 
-  $("select#filter").on("change", function () {
-    filter(this.value);
-  });
+  // $("input#search").on("keyup", function () {
+  //   search(this.value);
+  // });
 
-  $("input#search").on("keyup", function () {
-    search(this.value);
-  });
+  // $("input#display").on("change", function () {
+  //   display(this.checked ? "card" : "list");
 
-  $("input#display").on("change", function () {
-    display(this.checked ? "card" : "list");
-
-  });
+  // });
 
 
 // fill language filter list based on detected languages
