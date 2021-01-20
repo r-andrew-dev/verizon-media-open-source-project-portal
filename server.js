@@ -65,7 +65,8 @@ loadRepos();
   if (totalRequestCount == executedRequestCount) {
       console.log("making it here MOM")
       console.log(allRepos[allRepos.length - 1])
-      allRepos = allRepos.filter(repo => repo.archived === false); 
+      allRepos = allRepos.filter(repo => repo.archived === false);
+      allRepos = allRepos.filter(repo => repo.private === false);
       console.log(allRepos.length); 
       return allRepos  
 
