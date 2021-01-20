@@ -1,71 +1,26 @@
-# Contributing Guidelines
+# How to contribute
+First, thanks for taking the time to contribute to our project! There are many ways you can help out.
 
-## General Remarks
+### Questions
 
-This project serves as a template for implementing the InnerSource Commons [InnerSource portal](https://github.com/InnerSourceCommons/InnerSourcePatterns/blob/master/patterns/2-structured/innersource-portal.md) pattern.
-Any change to improve and advance the portal is welcome. Please note that the portal should be able to display any kind of InnerSource project at any company applying [InnerSource principles](). 
-Changes should be made in a generic and extensible way, so that all stakeholders can benefit from the improvment and apply it to their portal instance.
+If you have a question that needs an answer, [create an issue](https://help.github.com/articles/creating-an-issue/), and label it as a question.
 
-## Found a bug?
+### Issues for bugs or feature requests
 
-Just open an issue, describe how to reproduce the bug and what you would expect instead. We will get back to you soon.
+If you encounter any bugs in the code, or want to request a new feature or enhancement, please [create an issue](https://help.github.com/articles/creating-an-issue/) to report it. Kindly add a label to indicate what type of issue it is.
 
-## Contributing Code
+### Contribute Code
+We welcome your pull requests for bug fixes. To implement something new, please create an issue first so we can discuss it together.
 
-1. Make sure the change is welcome (see [General Remarks](#general-remarks)). When in doubt open an issue first or start a discussion with the project team
+***Creating a Pull Request***
+Please follow [best practices](https://github.com/trein/dev-best-practices/wiki/Git-Commit-Best-Practices) for creating git commits.
 
-2. Create a branch by forking this repository and apply your change.
+When your code is ready to be submitted, [submit a pull request](https://help.github.com/articles/creating-a-pull-request/) to begin the code review process.
 
-3. Commit and push your change(s) on that branch and create a pull request once your code is ready.
+We only seek to accept code that you are authorized to contribute to the project. We have added a pull request template on our projects so that your contributions are made with the following confirmation: 
 
-4. Wait for our code review and approval, possibly enhancing your change on request.
+> I confirm that this contribution is made under the terms of the license found in the root directory of this repository's source tree and that I have the authority necessary to make this contribution on behalf of its copyright owner.
 
-5. Once the change has been approved and merged, we will inform you in a comment.
+## Code of Conduct
 
-## Listing Project in the Project Portal for InnerSource
-
-1. In your GitHub enterprise instance, add the topic `inner-source` to your repository by clicking on the link "manage topics" below the repository description:
-`https://github.yourcompany.corp/<organization>/<repository>`
- 
-> **Note:** The portal assumes that a crawler script frequently collects all repositories marked as InnerSource inside your company and compiles a ```repos.json``` file automatically. All data inside this file can be compiled by querying the [GitHub API](https://developer.github.com/v3/) and loading the additional metadata defined in ```innersource.json```. Check the section [Configuration in the README](README.md#configuration) to learn more about crawling InnerSource projects .
- 
-2. (Optional) To provide more details or add a custom logo, add an `innersource.json` file in the root of your repository with the following format:
-
-``` json
-{
-  "title": "Readable Project Name (optional)",
-  "motivation": "A short statement why this project is InnerSource and why contributors should care (optional)",
-  "contributions": [
-    "List",
-    "Of",
-    "Requested",
-    "Contribtions",
-    "Like",
-    "Bugfixes",
-    "Features",
-    "Infrastructure",
-    "Documentation",
-    "..."
-  ],
-  "skills": [
-    "Skills",
-    "Required",
-    "To",
-    "Contribute",
-    "Like",
-    "Node.js",
-    "Java",
-    "C++",
-    "..."
-  ],
-  "logo": "path/to/your/project-logo.png (optional)",
-  "docs": "http://url/to/project/documentation (optional)",
-  "language": "JavaScript (optional)"
-}
-``` 
-
-> *Note:* The property `language` overrides GitHub's [programming language detection](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-repository-languages). Supported values are all entries of type `programming` from the [linguist language list](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml).
-
-## Developer Certificate of Origin (DCO)
-
-Due to legal reasons, contributors will be asked to accept a DCO before they submit the first pull request to this projects, this happens in an automated fashion during the submission process. SAP uses [the standard DCO text of the Linux Foundation](https://developercertificate.org/).
+We encourage inclusive and professional interactions on our project. We welcome everyone to open an issue, improve the documentation, report bug or ssubmit a pull request. By participating in this project, you agree to abide by the [Verizon Media Code of Conduct](Code-of-Conduct.md). If you feel there is a conduct issue related to this project, please raise it per the Code of Conduct process and we will address it.
