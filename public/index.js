@@ -10,6 +10,7 @@ $.get('/allRepos', (data, status) => {
   $("#count").text(window._globals.allRepos.length ? window._globals.allRepos.length : 0);
   fillLanguageFilter();
   updateUI();
+
 });
 
 $("select#sort").on("change", function () {
@@ -156,111 +157,109 @@ function getRepoLanguage(sLanguage) {
   return `<div class="tooltipped language" style="${ sLanguageShort !== "N/A" ? "background-color: "+ stringToColour(sLanguage) : "" }; ${ sFontSize ? "font-size: "+ sFontSize : "" }" data-position="top" data-tooltip="Language: ${sLanguage}">${sLanguageShort}</div>`
 }
 
-// COMMENTED OUT SECTION COULD BE USED TO ADD IN 'ACTIVITY SCORE' ONE DAY 
-
 // fetches the corresponding image for the activity score
-// function getActivityLogo(iScore) {
-//   let sLogo, sActivityLevel;
+function getActivityLogo(iScore) {
+  let sLogo, sActivityLevel;
 
-//   if (iScore > 2500) {
-//     sLogo = `images/activity/5.png"`;
-//     sActivityLevel = "Extremely High";
-//   } else if (iScore > 1000) {
-//     sLogo = `images/activity/4.png`;
-//     sActivityLevel = "Very High";
-//   } else if (iScore > 300) {
-//     sLogo = `images/activity/3.png`;
-//     sActivityLevel = "High";
-//   } else if (iScore > 150) {
-//     sLogo = `images/activity/2.png`;
-//     sActivityLevel = "Moderate";
-//   } else if (iScore > 50) {
-//     sLogo = `images/activity/1.png`;
-//     sActivityLevel = "Low";
-//   } else if (iScore > 5) {
-//     sLogo = `images/activity/0.png`;
-//     sActivityLevel = "Very Low";
-//   } else {
-//     sLogo = `images/activity/0.png`;
-//     sActivityLevel = "None";
-//   }
+  if (iScore > 2500) {
+    sLogo = `images/activity/5.png"`;
+    sActivityLevel = "Extremely High";
+  } else if (iScore > 1000) {
+    sLogo = `images/activity/4.png`;
+    sActivityLevel = "Very High";
+  } else if (iScore > 300) {
+    sLogo = `images/activity/3.png`;
+    sActivityLevel = "High";
+  } else if (iScore > 150) {
+    sLogo = `images/activity/2.png`;
+    sActivityLevel = "Moderate";
+  } else if (iScore > 50) {
+    sLogo = `images/activity/1.png`;
+    sActivityLevel = "Low";
+  } else if (iScore > 5) {
+    sLogo = `images/activity/0.png`;
+    sActivityLevel = "Very Low";
+  } else {
+    sLogo = `images/activity/0.png`;
+    sActivityLevel = "None";
+  }
 
-//   return `<img class="tooltipped" data-position="top" data-tooltip="Activity: ${sActivityLevel}" alt="Activity: ${sActivityLevel}" src="${sLogo}"/>`;
-// }
+  return `<img class="tooltipped" data-position="top" data-tooltip="Activity: ${sActivityLevel}" alt="Activity: ${sActivityLevel}" src="${sLogo}"/>`;
+}
 
 // creates an HTMl-based heatmap for the current week and the previous 12 weeks from participation stats
-// function createParticipationChart(oRepo) {
-//   function participationColor(iValue) {
-//     let iOpacity;
-//     if (iValue === 0) {
-//       iOpacity = 0;
-//     } else {
-//       iOpacity = Math.log(iValue)/4 + 0.03; // 50 = 1, scale logarithmically below
-//     }
-//     iOpacity = Math.min(1, iOpacity);
-//     return "rgba(50, 205, 50, " + iOpacity + ")";
-//   }
-//   let aParticipation = oRepo._InnerSourceMetadata.participation;
-//   const aPrevious12Weeks = aParticipation.slice(aParticipation.length - 13, aParticipation.length - 1).reverse();
+function createParticipationChart(oRepo) {
+  function participationColor(iValue) {
+    let iOpacity;
+    if (iValue === 0) {
+      iOpacity = 0;
+    } else {
+      iOpacity = Math.log(iValue)/4 + 0.03; // 50 = 1, scale logarithmically below
+    }
+    iOpacity = Math.min(1, iOpacity);
+    return "rgba(50, 205, 50, " + iOpacity + ")";
+  }
+  let aParticipation = oRepo._InnerSourceMetadata.participation;
+  const aPrevious12Weeks = aParticipation.slice(aParticipation.length - 13, aParticipation.length - 1).reverse();
 
-//   // this week
-//   let sHTML = window.document.getElementById("participation-template").innerHTML;
-//   let iValue = aParticipation[aParticipation.length - 1];
-//   sHTML = sHTML.replace("[[hasCommits]]", iValue ? 'hasCommits' : '');
-//   sHTML = sHTML.replace("[[backgroundColor]]", iValue ? 'background-color: ' + participationColor(iValue) : '' );
-//   sHTML = sHTML.replace("[[commits]]", iValue);
+  // this week
+  let sHTML = window.document.getElementById("participation-template").innerHTML;
+  let iValue = aParticipation[aParticipation.length - 1];
+  sHTML = sHTML.replace("[[hasCommits]]", iValue ? 'hasCommits' : '');
+  sHTML = sHTML.replace("[[backgroundColor]]", iValue ? 'background-color: ' + participationColor(iValue) : '' );
+  sHTML = sHTML.replace("[[commits]]", iValue);
 
-//   // previous weeks
-//   let sWeekTemplate = sHTML.match(/\[\[#foreach weeks]](.*)\[\[\/foreach\]\]/).pop();
-//   let sWeekHTML = "";
+  // previous weeks
+  let sWeekTemplate = sHTML.match(/\[\[#foreach weeks]](.*)\[\[\/foreach\]\]/).pop();
+  let sWeekHTML = "";
 
-//   const iCreatedWeeksAgo = Math.ceil((Date.now() - new Date(oRepo.created_at).getTime()) / 1000 / 86400 / 7) - 1;
-//   let iCommitsWeeksBefore = 0;
+  const iCreatedWeeksAgo = Math.ceil((Date.now() - new Date(oRepo.created_at).getTime()) / 1000 / 86400 / 7) - 1;
+  let iCommitsWeeksBefore = 0;
 
-//   aPrevious12Weeks.forEach((iValue, iIndex) => {
-//     // don't print boxes for new repos
-//     if (iIndex >= iCreatedWeeksAgo) {
-//       return;
-//     }
-//     iCommitsWeeksBefore += iValue;
+  aPrevious12Weeks.forEach((iValue, iIndex) => {
+    // don't print boxes for new repos
+    if (iIndex >= iCreatedWeeksAgo) {
+      return;
+    }
+    iCommitsWeeksBefore += iValue;
 
-//     let sWeekBox = sWeekTemplate.replace("[[hasCommits]]", iValue ? 'hasCommits' : '');
-//     sWeekBox = sWeekBox.replace("[[backgroundColor]]", iValue ? 'background-color: ' + participationColor(iValue) : '');
-//     sWeekBox = sWeekBox.replace("[[commits]]", iValue);
-//     sWeekHTML += sWeekBox;
-//   });
-//   sHTML = sHTML.replace(/\[\[#foreach weeks\]\](.*)\[\[\/foreach\]\]/, sWeekHTML);
+    let sWeekBox = sWeekTemplate.replace("[[hasCommits]]", iValue ? 'hasCommits' : '');
+    sWeekBox = sWeekBox.replace("[[backgroundColor]]", iValue ? 'background-color: ' + participationColor(iValue) : '');
+    sWeekBox = sWeekBox.replace("[[commits]]", iValue);
+    sWeekHTML += sWeekBox;
+  });
+  sHTML = sHTML.replace(/\[\[#foreach weeks\]\](.*)\[\[\/foreach\]\]/, sWeekHTML);
 
-//   // legend previous weeks
-//   sHTML = sHTML.replace("[[previousWeeks]]", Math.min(12, iCreatedWeeksAgo) + ' weeks: ' + iCommitsWeeksBefore);
+  // legend previous weeks
+  sHTML = sHTML.replace("[[previousWeeks]]", Math.min(12, iCreatedWeeksAgo) + ' weeks: ' + iCommitsWeeksBefore);
 
-//   // weeks before
-//   let sBeforeTemplate = sHTML.match(/\[\[#foreach before]](.*)\[\[\/foreach\]\]/).pop();
-//   let sBeforeHTML = "";
+  // weeks before
+  let sBeforeTemplate = sHTML.match(/\[\[#foreach before]](.*)\[\[\/foreach\]\]/).pop();
+  let sBeforeHTML = "";
 
-//   const aPrevious9months = aParticipation.slice(1, aParticipation.length - 13).reverse();
-//   let iWeeksBefore = 0;
-//   let iCommitsMonthBefore = 0;
-//   aPrevious9months.forEach((iValue, iIndex) => {
-//     if (iIndex >= iCreatedWeeksAgo - 12) {
-//       return;
-//     }
-//     iWeeksBefore++;
-//     iCommitsMonthBefore += iValue;
+  const aPrevious9months = aParticipation.slice(1, aParticipation.length - 13).reverse();
+  let iWeeksBefore = 0;
+  let iCommitsMonthBefore = 0;
+  aPrevious9months.forEach((iValue, iIndex) => {
+    if (iIndex >= iCreatedWeeksAgo - 12) {
+      return;
+    }
+    iWeeksBefore++;
+    iCommitsMonthBefore += iValue;
 
-//     let sBeforeBox = sBeforeTemplate.replace("[[hasCommits]]", iValue ? 'hasCommits' : '');
-//     sBeforeBox = sBeforeBox.replace("[[backgroundColor]]", iValue ? 'background-color: ' + participationColor(iValue) : '' );
-//     sBeforeBox = sBeforeBox.replace("[[commits]]", iValue);
-//     sBeforeHTML += sBeforeBox;
-//   });
-//   sHTML = sHTML.replace(/\[\[#foreach before\]\](.*)\[\[\/foreach\]\]/, sBeforeHTML);
+    let sBeforeBox = sBeforeTemplate.replace("[[hasCommits]]", iValue ? 'hasCommits' : '');
+    sBeforeBox = sBeforeBox.replace("[[backgroundColor]]", iValue ? 'background-color: ' + participationColor(iValue) : '' );
+    sBeforeBox = sBeforeBox.replace("[[commits]]", iValue);
+    sBeforeHTML += sBeforeBox;
+  });
+  sHTML = sHTML.replace(/\[\[#foreach before\]\](.*)\[\[\/foreach\]\]/, sBeforeHTML);
 
-//   // legend weeks before
-//   sHTML = sHTML.replace("[[weeksBefore]]", (Math.floor(iWeeksBefore / 4) <= 1 ? iWeeksBefore + ' weeks before: ' : Math.floor(iWeeksBefore / 4) + ' months before: ') + iCommitsMonthBefore);
-//   sHTML = sHTML.replace(/\[\[#if weeksBefore\]\]([^]*)\[\[\/if\]\]/gm, iWeeksBefore ? "$1" : "");
+  // legend weeks before
+  sHTML = sHTML.replace("[[weeksBefore]]", (Math.floor(iWeeksBefore / 4) <= 1 ? iWeeksBefore + ' weeks before: ' : Math.floor(iWeeksBefore / 4) + ' months before: ') + iCommitsMonthBefore);
+  sHTML = sHTML.replace(/\[\[#if weeksBefore\]\]([^]*)\[\[\/if\]\]/gm, iWeeksBefore ? "$1" : "");
 
-//   return sHTML;
-// }
+  return sHTML;
+}
 
 // creates HTML for and displays a project details modal
 function showModal (vRepoId, oEvent) {
@@ -407,87 +406,6 @@ function generateItem (sDisplay, oRepo) {
 
   return $(sHTML);
 }
-
-// const orgList = ['yahoo', 'arkime', 'Verizon', 'VerizonAdPlatforms', 'VerizonDigital', 'VerizonMedia', 'aol', 'bindable-ui', 'bullet-db', 'denali-design', 'flurry', 'millennialmedia', 'screwdriver-cd', 'theparanoids', 'ultrabrew', 'vespa-engine']
-
-// let totalRequestCount = orgList.length
-// let executedRequestCount = 0;
-
-// load repos.json file and display the list of projects from it - should be re-tooled to do this rather than creating on the fly everytime ß
-
-// function getRepos(i) {
-
-//   if (`${orgList[i]}` == 'yahoo') {
-//     console.log('making it here')
-//     $.ajax({
-//       url: `https://api.github.com/orgs/${orgList[i]}/repos?per_page=100&page=2`,
-//       type: `GET`,
-//       dataType: "json",
-//       headers: {'Authorization': `token  e2f49fa6877670b6479931bbd41324a636c4a5aa`},
-//       success: (oData) => {
-//       console.log(oData)
-//       window._globals.allRepos = oData.concat(window._globals.allRepos)
-//       }, error: (oHR, sStatus) => {
-//         console.log(oHR, sStatus);
-//       }
-//     })
-//   }
-
-//  $.ajax({
-//       url: `https://api.github.com/orgs/${orgList[i]}/repos?per_page=100&page=1`,
-//       type: `GET`,
-//       dataType: "json",
-//       headers: {'Authorization': `token  e2f49fa6877670b6479931bbd41324a636c4a5aa`},
-//       success: (oData) => {
-//       console.log(oData)
-//       window._globals.allRepos = oData.concat(window._globals.allRepos)
-//       executedRequestCount++;
-//       // console.log(executedRequestCount)
-//       // console.log(totalRequestCount)
-//       // console.log(window._globals.allRepos);
-
-//       if (totalRequestCount == executedRequestCount) {
-//         console.log('making it here');
-//         console.log("here are the repos " + window._globals.allRepos.length)
-//         window._globals.allRepos.pop();
-//         window._globals.allRepos = window._globals.allRepos.filter(repo => repo.archived === false);
-//         window._globals.allRepos = window._globals.allRepos.filter(repo => repo.private === false);
-//         $("#count").text(window._globals.allRepos.length ? window._globals.allRepos.length : 0);
-//         fillLanguageFilter();
-//         updateUI();
-        
-//       } 
-      
-//       },
-//       error: (oHR, sStatus) => {
-//         console.log(oHR, sStatus);
-//       }
-//     });
-
-// }
-
-// for (let i=0; i < totalRequestCount; i++) {
-//   getRepos(i)
-//   console.log("running again")
-// }
-
-  // $("select#sort").on("change", function () {
-  //   sort(this.value);
-  // });
-
-  // $("select#filter").on("change", function () {
-  //   filter(this.value);
-  // });
-
-  // $("input#search").on("keyup", function () {
-  //   search(this.value);
-  // });
-
-  // $("input#display").on("change", function () {
-  //   display(this.checked ? "card" : "list");
-
-  // });
-
 
 // fill language filter list based on detected languages
 function fillLanguageFilter () {

@@ -2,6 +2,10 @@
 nav .nav-wrapper.custom {
   background-color:  #000;
 }
+
+#yahoo-nav {
+  background-color: #6002d2
+}
 /* logo alignment */
 nav .brand-logo.logo {
   padding: 1rem;
@@ -15,6 +19,11 @@ nav {
 
 a {
   color: #D52B1E;
+}
+
+#issue-name {
+  color: #6002d2;
+  font-size: 24px;
 }
 
 /* adjust title text size to nav bar */
@@ -32,7 +41,7 @@ a {
 }
 
 /* emphasize project counter */
-#count {
+#count, #count-closed {
   font-weight: bold;
 }
 
@@ -67,6 +76,28 @@ a {
   margin-bottom: 0.5rem;
 }
 
+.labels {
+  overflow-wrap: break-word;
+  overflow: hidden;
+  height: 6rem;
+  display: -webkit-box;
+  word-break: break-word;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin-bottom: 0.25rem;
+}
+
+#language {
+  overflow-wrap: break-word;
+  overflow: hidden;
+  height: 3rem;
+  display: -webkit-box;
+  word-break: break-word;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  margin-bottom: 0.5rem;
+}
+
 /* center image */
 .card-media {
   text-align: center;
@@ -95,6 +126,10 @@ a {
 
 .card-action.darken-1 {
   background-color: #000;
+}
+
+#go-to-issue {
+  background-color: #6002d2;
 }
 
 /* underline card links */

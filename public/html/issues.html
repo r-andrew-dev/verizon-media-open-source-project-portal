@@ -6,50 +6,80 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>Open Source Project Portal</title>
-    <link rel="stylesheet" type='text/css' href="lib/materialize.min.css"/>
-    <link rel="stylesheet" type='text/css' href="lib/material-icons.css"/>
-    <link rel="stylesheet" type='text/css' href="styles/global.css"/>
+    <title>Yahoo Hack Together Issue Portal</title>
+    <link rel="stylesheet" type='text/css' href="../lib/materialize.min.css"/>
+    <link rel="stylesheet" type='text/css' href="../lib/material-icons.css"/>
+    <link rel="stylesheet" type='text/css' href="../styles/global.css"/>
   </head>
   <body>
     <!-- header bar -->
     <nav>
-      <div class="nav-wrapper custom">
+      <div class="nav-wrapper custom" id="yahoo-nav">
         <a target="_blank" href="https://yourcompany.corp/innersource-landingpage" class="brand-logo logo">
           <!-- add a logo if needed
           <img src="images/logo.png" width="50" alt="InnerSource logo" data-position="right" data-tooltip="Show more information about InnerSource..." class="tooltipped">
           -->
         </a>
-        <span class="brand-logo center">Verizon Media Open Source Project Portal<span id="header-text">Leverage, Reuse or Contribute to <span id="count"></span> Open Source projects</span></span>
+        <span class="brand-logo center">Yahoo Hack Together Issue Tracker<span id="header-text">There are currently <span id="count"></span> open issues for this event. We have closed <span id="count-closed"></span> issues.</span>
       </div>
     </nav>
 
     <div style="margin-top: 20px;" class="container">
-      <div class="row">
-        <a href="html/issues.html">Yahoo Hack Together Issue Tracker</a>
-      </div>
       <!-- filter/sort/search bar -->
       <div class="row">
-        <div class="input-field col l3 m6 s6">
+        <div class="input-field col 3 m6 s10">
           <select id="filter">
             <option value="All" selected>All</option>
             <!-- is filled dynamically -->
-            <option value="N/A">Other</option>
           </select>
-          <label>Filter by languages:</label>
+          <label>Filter by Project:</label>
         </div>
 
-        <div class="input-field col l3 m6 s6">
+        <div class="input-field col 3 m6 s10">
           <select id="sort">
-            <option value="name">Name</option>
-            <option value="full_name">Organization</option>
-            <option value="stargazers_count">Stars</option>
-            <option value="open_issues_count">Issues</option>
-            <option value="forks_count">Forks</option>
+            <option value="All" selected>All</option>
+            <option value="C">C</option>
+            <option value="C++">C++</option>
+            <option value="CSS">CSS</option>
+            <option value="Go">Go</option>
+            <option value="HTML">HTML</option>
+            <option value="Java">Java</option>
+            <option value="Javascript">Javascript</option>
+            <option value="Perl">Perl</option>
+            <option value="Python">Python</option>
+            <option value="Ruby">Ruby</option>
+            <option value="SCSS">SCSS</option>
+            <option value="Typescript">Typescript</option>
+            <option value="Vue">Vue</option>
           </select>
-          <label>Sort by:</label>
+          <label>Filter by Language:</label>
         </div>
-        <div class="input-field col l4 m10 s8">
+        <div class="input-field col 3 m6 s10">
+          <select id="sortType">
+            <option value="All" selected>All</option>
+            <option value="Data">Data</option>
+            <option value="Design">Design</option>
+            <option value="Dev Ops">Dev Ops</option>
+            <option value="Security">Security</option>
+          </select>
+          <label>Filter by Cateogry:</label>
+        </div>
+        <div class="input-field col 3 m6 s10">
+          <select id="sortLabel">
+            <option value="All" selected>All</option>
+            <option value="data">accessibility</option>
+            <option value="bug">bug</option>
+            <option value="design">design</option>
+            <option value="documentation">documentation</option>
+            <option value="feature">feature</option>
+            <option value="good first issue">good first issue</option>
+            <option value="help wanted">help wanted</option>
+            <option value="translation">translation</option>
+            <option value="user experience">user experience</option>
+          </select>
+          <label>Filter by Label:</label>
+        </div>
+        <div class="input-field col 3 m6 s10">
           <input id="search" type="text" class="validate">
           <label for="search">Search</label>
         </div>
@@ -74,12 +104,12 @@
           <th>Logo</th>
           <th>Name</th>
           <th class="hidePhone hideTablet">Description</th>
-          <th class="hidePhone hideTablet">Stars</th>
+          <!-- <th class="hidePhone hideTablet">Stars</th>
           <th class="hidePhone hideTablet">Issues</th>
-          <th class="hidePhone hideTablet">Forks</th>
-          <th>Score</th>
+          <th class="hidePhone hideTablet">Forks</th> -->
+          <!-- <th>Score</th>
           <th>Lang</th>
-          <th class="hidePhone">Action</th>
+          <th class="hidePhone">Action</th> -->
         </tr>
         </thead>
         <!-- is filled dynamically -->
@@ -87,23 +117,34 @@
       </table>
 
     <!-- modal placeholder -->
-    <!-- <div id="modal-details" class="modal"></div> -->
+    <div id="modal-details" class="modal"></div>
 
     <!-- HTML templates (filled in scripts) -->
     <div id="templates" style="display: none">
       <!-- card template -->
       <div id="card-template">
-        <div class="col l4 s12 m6">
+        <div class="col l4 s14 m6">
           <div class="card hoverable" onclick="showModal([[id]], event)" style="cursor: pointer">
             <div class="card-content">
-              <span class="card-media">
+              <!-- <span class="card-media">
                 <img src="[[mediaURL]]"/>
-              </span>
-              <div class="card-title">[[title]]
-                <p class="repoLink"><a href="[[repoURL]]" target="_blank">[[repoTitle]]</a></p>
+              </span> -->
+              <div class="card-title">[[repoTitle]]
+                <p class="repoLink"><a id="issue-name" href="[[issueURL]]" target="_blank">[[title]]</a></p>
               </div>
-              <div class="card-description">[[description]]</div>
-              <div class="icon-container">
+              <div class="card-description" id="issue-description">
+                <p>[[description]]</p></div>
+                <div class="labels">
+                  <h5>labels: <span>[[labels]]</span></h5>
+                </div>
+              <div class="status" id="language">
+                <h5><span>[[status]]</span></h5>
+              </div>
+              <div class="type" id="type">
+                <h5><span>[[type]]</span></h5>
+              </div>
+             
+                <!-- <div class="icon-container">
                 <div class="tooltipped" data-position="top" data-tooltip="Stars">
                   <i class="small material-icons">star</i>
                   <span class="icon-subtitle">[[stars]]</span>
@@ -115,17 +156,17 @@
                 <div class="tooltipped" data-position="top" data-tooltip="Forks">
                   <i class="small material-icons">share</i>
                   <span class="icon-subtitle">[[forks]]</span>
-                </div> 
-                <div>
+                </div>  -->
+                <!-- <div>
                   [[score]]
                 </div>
                 <div>
                   [[language]]
-                </div>
-              </div>
+                </div> -->
+              <!-- </div> -->
             </div>
-            <div style="text-align: center; font-weight: bold;" class="card-action darken-1">
-              <a class="white-text" href="[[contributeURL]]" target="_blank">CONTRIBUTE</a>
+            <div style="text-align: center; font-weight: bold;" class="card-action darken-1" id="go-to-issue">
+              <a class="white-text" href="[[contributeURL]]" target="_blank">Go to Issue</a>
             </div>
           </div>
         </div>
@@ -135,11 +176,11 @@
       <div id="row-template">
         <table width="100%">
           <tr onclick="showModal([[id]], event)" style="cursor: pointer">
-            <td><span class="card-media"><img src="[[mediaURL]]"/></span></td>
-            <td><b>[[title]]</b><br/>
-              <span class="repoLink"><a href="[[repoURL]]" target="_blank">[[repoTitle]]</a></span></td>
-            <td class="hidePhone hideTablet"><div class="card-description">[[description]]</div></td>
-            <td class="hidePhone hideTablet"><div class="tooltipped" data-position="top" data-tooltip="Stars">
+            <!-- <td><span class="card-media"><img src="[[mediaURL]]"/></span></td> -->
+            <td><b>[[repoTitle]]</b><br/>
+              <span class="repoLink"><a href="[[issueURL]]" target="_blank">[[title]]</a></span></td>
+            <td class="hidePhone hideTablet"><div class="card-description" id="issue-description">[[description]]</div></td>
+            <!-- <td class="hidePhone hideTablet"><div class="tooltipped" data-position="top" data-tooltip="Stars">
               <i class="small material-icons">star</i>
               <span class="icon-subtitle">[[stars]]</span>
             </div></td>
@@ -152,22 +193,22 @@
               <span class="icon-subtitle">[[forks]]</span>
             </div></td>
             <td>[[score]]</td>
-            <td>[[language]]</td>
-            <td class="hidePhone"><div style="text-align: center; font-weight: bold;" class="card-action darken-1">
-              <a class="white-text" href="[[contributeURL]]" target="_blank">CONTRIBUTE</a>
+            <td>[[language]]</td> -->
+            <td class="hidePhone"><div style="text-align: center; font-weight: bold;" class="card-action darken-1" id="go-to-issue">
+              <a class="white-text" href="[[contributeURL]]" target="_blank">Go to Issue</a>
             </div></td>
           </tr>
         </table>
       </div>
 
       <!-- modal template -->
-      <!-- <div id="details-template">
+      <div id="details-template">
         <div class="modal-content">
           <aside>
-            <span class="card-media">
+            <!-- <span class="card-media">
               <img src="[[mediaURL]]"/>
-            </span>
-            <div class="icon-container">
+            </span> -->
+            <!-- <div class="icon-container">
               <div class="tooltipped" data-position="top" data-tooltip="Stars">
                 <i class="small material-icons">star</i>
                 <span class="icon-subtitle">[[stars]]</span>
@@ -186,12 +227,12 @@
               <div>
                 [[language]]
               </div>
-            </div>
+            </div> -->
           </aside>
 
-          <article>
+          <!-- <article>
             <h4>[[title]]</h4>
-            <p class="repoLink"><a href="[[repoURL]]" target="_blank">[[repoTitle]]</a></p>
+            <p class="repoLink"><a href="[[repoURL]]" target="_blank">[[title]]</a></p>
             <p>[[description]]</p>
             [[#if skills]]<p><b>Skills required:</b><br/>[[skills]]</p>[[/if]]
             <p><b>Contributions wanted:</b><br/>[[contributions]]</p>
@@ -201,19 +242,19 @@
             <p><b>Activity Score:</b> [[scoreNumeric]] </p>
             <p><b>Average commits over the last year:</b><br/>
             <div id="participationChart" class="participationChart"></div></p>
-          </article>
+          </article> -->
 
           <a href="#!" class="modal-close waves-effect btn-flat">x</a>
         </div>
         <div class="modal-footer">
-          <div class="card-action darken-1">
-            <a class="white-text" href="[[contributeURL]]" target="_blank">CONTRIBUTE</a>
+          <div class="card-action darken-1" id="go-to-issue">
+            <a class="white-text" href="[[contributeURL]]" target="_blank">Go to Issue</a>
           </div>
         </div>
       </div>
 
-       participation template
-      <div id="participation-template">
+      <!-- participation template -->
+      <!-- <div id="participation-template">
         <div class="thisWeek [[hasCommits]]" style="[[backgroundColor]]"><div class="text">[[commits]]</div></div>
         [[#foreach weeks]]<div class="previousWeeks [[hasCommits]]" style="[[backgroundColor]]"><div class="text">[[commits]]</div></div>[[/foreach]]
         <div class="legend">
@@ -229,12 +270,12 @@
     </div> -->
 
     <!-- thirdparty libraries -->
-    <script src="lib/jquery.min.js"></script>
-    <script src="lib/materialize.min.js"></script>
+    <script src="../lib/jquery.min.js"></script>
+    <script src="../lib/materialize.min.js"></script>
     <!-- <script src="lib/moment.min.js"></script> -->
-    <script src="lib/seedrandom.min.js"></script>
+    <script src="../lib/seedrandom.min.js"></script>
 
     <!-- our scripts -->
-    <script type="module" src="index.js"></script>
+    <script type="module" src="../js/issues.js"></script>
   </body>
 </html>
