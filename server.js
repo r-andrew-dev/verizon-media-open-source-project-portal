@@ -17,6 +17,7 @@ let totalRequestCount = orgList.length
 let executedRequestCount = 0;
 let allRepos = [];
 let allIssues = [];
+let page = 1;
 
 
 app.use(express.urlencoded({ extended: true }));
@@ -71,10 +72,19 @@ loadRepos();
 
   async function hackTogetherIssues() {
     let config = {'Authorization': `token ${githubKey}`};
-    await axios.get("https://api.github.com/search/issues?q=label:HacKTogether&type=issues&page=1&per_page=100", {headers: config}).then((res) => {
-      allIssues = Object.values(res.data.items)
-      console.log(allIssues)
+    await axios.get(`https://api.github.com/search/issues?q=label:HacKTogether&type=issues&page=${page}&per_page=100`, {headers: config}).then((res) => {
+     let issueArray = Object.values(res.data.items)
+    allIssues = issueArray.concat(allIssues)
+      let headers = res.headers.link 
+      if (headers.includes('rel="next"')) {
+        console.log("Yes, there is another page")
+        page ++ 
+        hackTogetherIssues()
+      } else {
+        console.log("we maybe did it?")
+        console.log(allIssues.length)
       return allIssues
+      }
   })
 }
 

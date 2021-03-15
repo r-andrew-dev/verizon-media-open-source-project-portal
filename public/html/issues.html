@@ -27,15 +27,7 @@
     <div style="margin-top: 20px;" class="container">
       <!-- filter/sort/search bar -->
       <div class="row">
-        <div class="input-field col 3 m6 s10">
-          <select id="filter">
-            <option value="All" selected>All</option>
-            <!-- is filled dynamically -->
-          </select>
-          <label>Filter by Project:</label>
-        </div>
-
-        <div class="input-field col 3 m6 s10">
+        <div class="input-field col 6 m6 s10">
           <select id="sort">
             <option value="All" selected>All</option>
             <option value="C">C</option>
@@ -54,7 +46,7 @@
           </select>
           <label>Filter by Language:</label>
         </div>
-        <div class="input-field col 3 m6 s10">
+        <!-- <div class="input-field col 3 m6 s10">
           <select id="sortType">
             <option value="All" selected>All</option>
             <option value="Data">Data</option>
@@ -63,8 +55,8 @@
             <option value="Security">Security</option>
           </select>
           <label>Filter by Cateogry:</label>
-        </div>
-        <div class="input-field col 3 m6 s10">
+        </div> -->
+        <div class="input-field col 6 m6 s10">
           <select id="sortLabel">
             <option value="All" selected>All</option>
             <option value="data">accessibility</option>
@@ -79,11 +71,21 @@
           </select>
           <label>Filter by Label:</label>
         </div>
-        <div class="input-field col 3 m6 s10">
+
+        <div class="input-field col 4 m4 s10">
+          <select id="filter">
+            <option value="All" selected>All</option>
+            <!-- is filled dynamically -->
+          </select>
+          <label>Filter by Project:</label>
+        </div>
+
+        <div class="input-field col 4 m4 s10">
           <input id="search" type="text" class="validate">
           <label for="search">Search</label>
         </div>
-        <div class="switch icons col l2 m2 s4">
+
+        <div class="switch icons col 4 m2 s10">
           <label>
             <br/>
             <i class="small material-icons">view_list</i>
@@ -98,26 +100,52 @@
       <div id="cards" class="row"></div>
 
       <!-- list content (alternative) -->
-      <table id="list" class="list highlight" style="display: none !important;">
+      <table id="list" class="list highlight col 8" style="display: none !important;">
         <thead>
         <tr>
-          <th>Logo</th>
-          <th>Name</th>
-          <th class="hidePhone hideTablet">Description</th>
-          <!-- <th class="hidePhone hideTablet">Stars</th>
-          <th class="hidePhone hideTablet">Issues</th>
-          <th class="hidePhone hideTablet">Forks</th> -->
-          <!-- <th>Score</th>
-          <th>Lang</th>
-          <th class="hidePhone">Action</th> -->
+          <th>Project</th>
+          <th>Issue</th>
         </tr>
         </thead>
         <!-- is filled dynamically -->
         <tbody id="rows"></tbody>
       </table>
 
-    <!-- modal placeholder -->
-    <div id="modal-details" class="modal"></div>
+  </div>
+
+          <footer style="margin-top: 200px;">
+              <div class="row" style="background-color: black; color: white; padding-top: 50px; padding-bottom: 50px; margin-bottom: 0;">
+                <div class="col 4 m4 s10 offset-m2">
+                    <h4 class="is-grey-100 m-b-10">Code of Conduct</h4>
+                    <h6 class="is-grey-100">Please visit our <a class="link-name" target="_blank" href="https://verizonmedia.github.io/oss-guide/docs/publishing/publishing-template/Code-of-Conduct.html">Code of Conduct page</a> to learn more about our commitment to
+                        an open and welcoming environment.</h6>
+                </div>
+                <div class="col 4 m4 s10">
+                    <h4 class="is-grey-100 m-b-10">Acknowledgements</h4>
+                    <h6 class="is-grey-100">Thank you to <a class="link-name" href="https://about.gitlab.com/community/hackathon/">GitLab Hackathon</a> & <a class="link-name" href="https://denali.design/">SAP InnerSource Portal</a></h6>
+                </div>
+              </div>
+
+              <div class="row" style="background-color: #6002d2; color: white; padding-top:64px; padding-bottom: 64px; margin-bottom: 0;">
+                <div class="col 3 m3 s10 offset-m2">
+                    <h6 class="is-extra-bold is-grey-100"><b>Yahoo Hack Together</b></h6>
+                    <a class="big" target="_blank" href="html/rules.html">Rules</a><br>
+                    <a class="big" target="_blank" href="https://www.verizonmedia.com/policies/us/en/verizonmedia/privacy/products/developer/index.html">Privacy</a><br>
+                    <a class="big" target="_blank" href="https://www.verizonmedia.com/policies/">Terms</a><br>
+                </div>
+                <div class="col 3 m3 s10">
+                    <h6 class="is-extra-bold is-grey-100"><b>Follow us on Twitter</b></h6>
+                    <a class="big" target="_blank" href="https://twitter.com/verizonmediaoss">Verizon Media Open
+                        Source</a><br>
+                    <a class="big" target="_blank" href="https://twitter.com/ydn">Yahoo Developer Network</a>
+                </div>
+                <div class="col 3 m3 s10">
+                    <h6 class="is-extra-bold is-grey-100"><b>Connect with us on LinkedIn</b></h6>
+                    <a class="big" target="_blank" href="https://www.linkedin.com/company/ydn">Yahoo Developer
+                        Network</a>
+                </div>
+            </div>
+          </footer>
 
     <!-- HTML templates (filled in scripts) -->
     <div id="templates" style="display: none">
@@ -139,9 +167,6 @@
                 </div>
               <div class="status" id="language">
                 <h5><span>[[status]]</span></h5>
-              </div>
-              <div class="type" id="type">
-                <h5><span>[[type]]</span></h5>
               </div>
              
                 <!-- <div class="icon-container">
@@ -176,98 +201,18 @@
       <div id="row-template">
         <table width="100%">
           <tr onclick="showModal([[id]], event)" style="cursor: pointer">
-            <!-- <td><span class="card-media"><img src="[[mediaURL]]"/></span></td> -->
-            <td><b>[[repoTitle]]</b><br/>
-              <span class="repoLink"><a href="[[issueURL]]" target="_blank">[[title]]</a></span></td>
-            <td class="hidePhone hideTablet"><div class="card-description" id="issue-description">[[description]]</div></td>
-            <!-- <td class="hidePhone hideTablet"><div class="tooltipped" data-position="top" data-tooltip="Stars">
-              <i class="small material-icons">star</i>
-              <span class="icon-subtitle">[[stars]]</span>
-            </div></td>
-            <td class="hidePhone hideTablet"><div class="tooltipped" data-position="top" data-tooltip="Issues">
-              <i class="small material-icons">error</i>
-              <span class="icon-subtitle">[[issues]]</span>
-            </div></td>
-            <td class="hidePhone hideTablet"><div class="tooltipped" data-position="top" data-tooltip="Forks">
-              <i class="small material-icons">share</i>
-              <span class="icon-subtitle">[[forks]]</span>
-            </div></td>
-            <td>[[score]]</td>
-            <td>[[language]]</td> -->
-            <td class="hidePhone"><div style="text-align: center; font-weight: bold;" class="card-action darken-1" id="go-to-issue">
-              <a class="white-text" href="[[contributeURL]]" target="_blank">Go to Issue</a>
+            <td><div><span id="issue-in-list">[[repoTitle]]</span><br>
+            <span>[[status]]</span></div></td>
+            <td><div style="margin-bottom: 10px; font-size: 18px;"><span class="repoLink"><a id="issue-in-list" style="color:rgb(56, 83, 236)" href="[[issueURL]]" target="_blank">[[title]]</a></span></div>
+            <div class="card-description" style="margin-bottom: 10px;"><span>[[description]]</span></div>
+            <div><span>[[labels]]</span></div></td>
+            <td class="hidePhone"><div style="font-weight: bold;" class="card-action darken-1" id="go-to-issue">
+              <a class="white-text center-align" href="[[contributeURL]]" target="_blank">Go to Issue</a>
             </div></td>
           </tr>
         </table>
       </div>
 
-      <!-- modal template -->
-      <div id="details-template">
-        <div class="modal-content">
-          <aside>
-            <!-- <span class="card-media">
-              <img src="[[mediaURL]]"/>
-            </span> -->
-            <!-- <div class="icon-container">
-              <div class="tooltipped" data-position="top" data-tooltip="Stars">
-                <i class="small material-icons">star</i>
-                <span class="icon-subtitle">[[stars]]</span>
-              </div>
-              <div class="tooltipped" data-position="top" data-tooltip="Issues">
-                <i class="small material-icons">error</i>
-                <span class="icon-subtitle">[[issues]]</span>
-              </div>
-              <div class="tooltipped" data-position="top" data-tooltip="Forks">
-                <i class="small material-icons">share</i>
-                <span class="icon-subtitle">[[forks]]</span>
-              </div>
-              <div>
-                [[score]]
-              </div>
-              <div>
-                [[language]]
-              </div>
-            </div> -->
-          </aside>
-
-          <!-- <article>
-            <h4>[[title]]</h4>
-            <p class="repoLink"><a href="[[repoURL]]" target="_blank">[[title]]</a></p>
-            <p>[[description]]</p>
-            [[#if skills]]<p><b>Skills required:</b><br/>[[skills]]</p>[[/if]]
-            <p><b>Contributions wanted:</b><br/>[[contributions]]</p>
-            [[#if documentationURL]]<p><b>Documentation:</b><br/><a href="[[documentationURL]]" target="_blank">[[documentationURL]]</a></p>[[/if]]
-            <p><b>Created at:</b> [[createdAt]]</p>
-            <p><b>Last update:</b> [[lastUpdate]]</p>
-            <p><b>Activity Score:</b> [[scoreNumeric]] </p>
-            <p><b>Average commits over the last year:</b><br/>
-            <div id="participationChart" class="participationChart"></div></p>
-          </article> -->
-
-          <a href="#!" class="modal-close waves-effect btn-flat">x</a>
-        </div>
-        <div class="modal-footer">
-          <div class="card-action darken-1" id="go-to-issue">
-            <a class="white-text" href="[[contributeURL]]" target="_blank">Go to Issue</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- participation template -->
-      <!-- <div id="participation-template">
-        <div class="thisWeek [[hasCommits]]" style="[[backgroundColor]]"><div class="text">[[commits]]</div></div>
-        [[#foreach weeks]]<div class="previousWeeks [[hasCommits]]" style="[[backgroundColor]]"><div class="text">[[commits]]</div></div>[[/foreach]]
-        <div class="legend">
-          <div class="thisWeekLegend">This week</div><div class="previousWeeksLegend">In previous [[previousWeeks]]</div>
-        </div>
-        [[#foreach before]]<div class="previousMonths [[hasCommits]]" style="[[backgroundColor]]"><div class="text">[[commits]]</div></div>[[/foreach]]
-        [[#if weeksBefore]]
-        <div class="legend">
-          <div class="previousMonthsLegend">In the [[weeksBefore]]</div>
-        </div>
-        [[/if]]
-      </div>
-    </div> -->
 
     <!-- thirdparty libraries -->
     <script src="../lib/jquery.min.js"></script>

@@ -26,6 +26,22 @@ a {
   font-size: 24px;
 }
 
+.link-name {
+  color: white;
+  font-size: 22px;
+}
+
+.link-name:hover {
+  color: grey;
+}
+
+.big {
+  color: white;
+}
+
+.big:hover {
+  color: #9FFD2D;
+}
 /* adjust title text size to nav bar */
 .brand-logo {
   font-weight: bold;
@@ -444,6 +460,11 @@ table.list td .card-media img {
 table.list td .repoLink {
   font-size: 100%;
   white-space: initial;
+}
+
+#issue-in-list {
+  font-size: 22px;
+  text-align: left;
 }
 
 /* round corners for contribute link in table */
