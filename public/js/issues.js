@@ -490,7 +490,7 @@ function sortLanguage(sParam) {
     } else if (project === "screwdriver-cd") {
       languages =  ["Javascript", "Go", "Ruby"]
     } else if (project === "vespa-engine") {
-      languages = ["Java", "C++"]
+      languages = ["Java", "C++", "Javascript"]
     } else if (project === "yavin-dev") {
       languages = ["Javascript", "Typescript"]
     } else {}
