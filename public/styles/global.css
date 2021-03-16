@@ -114,6 +114,10 @@ textarea {
   margin-bottom: 0.1rem;
 }
 
+.list-text {
+  height: 8rem;
+}
+
 .labels {
   overflow-wrap: break-word;
   overflow: hidden;
