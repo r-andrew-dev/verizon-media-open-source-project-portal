@@ -216,7 +216,7 @@ function generateItem (sDisplay, oRepo) {
       sHTML = sHTML.replace("[[status]]", "Javascript, Go, Ruby")
       sHTML = sHTML.replace("[[type]]", "Dev Ops")
     } else if (project === "vespa-engine") {
-      sHTML = sHTML.replace("[[status]]", "Java, C++")
+      sHTML = sHTML.replace("[[status]]", "Java, C++, Javascript")
       sHTML = sHTML.replace("[[type]]", "Data")
     } else if (project === "yavin-dev") {
       sHTML = sHTML.replace("[[status]]", "Javascript, Typescript")
