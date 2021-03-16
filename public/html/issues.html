@@ -27,7 +27,7 @@
     <div style="margin-top: 20px;" class="container">
       <!-- filter/sort/search bar -->
       <div class="row">
-        <div class="input-field col 6 m6 s10">
+        <div class="input-field col 4 m4 s10">
           <select id="sort">
             <option value="All" selected>All</option>
             <option value="C">C</option>
@@ -56,7 +56,7 @@
           </select>
           <label>Filter by Cateogry:</label>
         </div> -->
-        <div class="input-field col 6 m6 s10">
+        <div class="input-field col 4 m4 s10">
           <select id="sortLabel">
             <option value="All" selected>All</option>
             <option value="data">accessibility</option>
@@ -85,7 +85,13 @@
           <label for="search">Search</label>
         </div>
 
-        <div class="switch icons col 4 m2 s10">
+        <div class="col 3 m3 s10">
+          <div style="text-align: center; font-weight: bold;" class="card-action darken-1 center-align clear" id="go-to-issue">
+            <a class="white-text center-align" href="https://verizon-media-open-source.herokuapp.com/html/issues.html#display=card">Clear All Fields</a>
+        </div>
+      </div>
+
+        <div class="switch icons col 4 m4 s10">
           <label>
             <br/>
             <i class="small material-icons">view_list</i>
@@ -181,12 +187,12 @@
       <div id="row-template">
         <table width="100%">
           <tr onclick="showModal([[id]], event)" style="cursor: pointer">
-            <td><div><span id="issue-in-list">[[repoTitle]]</span><br>
-            <span>[[status]]</span></div></td>
-            <td><div style="margin-bottom: 10px; font-size: 18px;"><span class="repoLink"><a id="issue-in-list" style="color:rgb(56, 83, 236)" href="[[issueURL]]" target="_blank">[[title]]</a></span></div>
-           <textarea class="list-text">[[description]]</textarea>
-            <div><span>Labels: [[labels]]</span></div></td>
-            <td class="hidePhone"><div style="font-weight: bold;" class="card-action darken-1" id="go-to-issue">
+            <td><div><span id="issue-in-list" style="font-size:22px">[[repoTitle]]</span></div>
+            <div><span>[[status]]</span></div></td>
+            <td class="list-it"><div class="issue-list-items" style="margin-bottom: 10px; font-size: 18px;"><span class="repoLink"><a id="issue-in-list" style="color:rgb(56, 83, 236)" href="[[issueURL]]" target="_blank">[[title]]</a></span></div>
+           <div class="issue-list-items"><textarea class="list-text">[[description]]</textarea></div>
+            <div class="issue-list-items"><span class="list-labels">Labels: [[labels]]</span></div></td>
+            <td class="hidePhone list-it"><div style="font-weight: bold;" class="card-action darken-1" id="go-to-issue">
               <a class="white-text center-align" href="[[contributeURL]]" target="_blank">Go to Issue</a>
             </div></td>
           </tr>

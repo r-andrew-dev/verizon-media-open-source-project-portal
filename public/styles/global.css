@@ -17,6 +17,13 @@ nav {
   height: 84px !important;
 }
 
+.clear {
+  color:#6002d2; 
+  font-size: 22px; 
+  text-align: center;
+  border-radius: 12px;
+}
+
 a {
   color: #D52B1E;
 }
@@ -92,6 +99,10 @@ a {
   margin-bottom: 0.5rem;
 }
 
+.list-labels {
+  font-size: 22px;
+}
+
 /* #issue-description {
   overflow-wrap: break-word;
   overflow: hidden;
@@ -105,13 +116,14 @@ a {
 
 textarea {
   overflow-wrap: break-word;
-  overflow: scroll;
-  height: 10rem;
+  overflow: hidden;
+  height: 6rem;
   display: -webkit-box;
   word-break: break-word;
-  -webkit-line-clamp: 6;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   margin-bottom: 0.1rem;
+  border: none;
 }
 
 .list-text {
