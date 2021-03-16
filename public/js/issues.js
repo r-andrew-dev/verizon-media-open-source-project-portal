@@ -10,7 +10,6 @@ window._globals = {
 
   const orgList = ["arkime", "AthenZ", "denali-design", "yahoo", "screwdriver-cd", "vespa-engine", "VerizonDigital", "yavin-dev"]
 
-
   $.get('/allIssues', (data, status) => {
     data.map((issue) => {
     let repoURL = issue.repository_url
