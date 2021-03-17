@@ -190,7 +190,7 @@ function generateItem (sDisplay, oRepo) {
     } else if (project === "Oak") {
       sHTML = sHTML.replace("[[status]]", "Java, Python")
       sHTML = sHTML.replace("[[type]]", "Data")
-    } else if (project.inlcudes("k8s")) {
+    } else if (project === "k8s-athenz-webhook" || project === "k8s-athenz-identity" || project === "k8s-athenz-syncer" || "k8s-athenz-istio-auth") {
       sHTML = sHTML.replace("[[status]]", "Go")
       sHTML = sHTML.replace("[[type]]", "Dev Ops")
     } else {}
