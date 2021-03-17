@@ -16,6 +16,7 @@ window._globals = {
     let splitURL = repoURL.split('/');
 
     let org = splitURL[splitURL.length - 2]
+    let project = splitURL[splitURL.length - 1]
     
     if (orgList.includes(org) && issue.state === "open") {
         openIssues.push(issue)
@@ -24,6 +25,7 @@ window._globals = {
       } else { 
         return
       }
+
     })
 
 
@@ -280,18 +282,18 @@ function fillProjectFilter () {
     let vzOrgRepo = splitURL[splitURL.length - 1]
 
 
-    if (org !== "yahoo" && org !== "VerizonDigital" && !aAllProjects.includes(org)) {
-      aAllProjects.push(org)
+    if (org !== "yahoo" && org !== "VerizonDigital" && !aAllProjects.includes(org.toLowerCase())) {
+      aAllProjects.push(org.toLowerCase())
     }
 
 
-    else if (org === "yahoo" && !aAllProjects.includes(vzOrgRepo)) {
+    else if (org === "yahoo" && !aAllProjects.includes(vzOrgRepo.toLowerCase())) {
+     
+      aAllProjects.push(vzOrgRepo.toLowerCase())
 
-      aAllProjects.push(vzOrgRepo)
-
-    } else if (org === "VerizonDigital" && !aAllProjects.includes(vzOrgRepo)) {
+    } else if (org === "VerizonDigital" && !aAllProjects.includes(vzOrgRepo.toLowerCase())) {
       
-      aAllProjects.push(vzOrgRepo)
+      aAllProjects.push(vzOrgRepo.toLowerCase())
     
     } else { console.log("we already have this project") }
 
