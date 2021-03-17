@@ -60,6 +60,10 @@ $("input#display").on("change", function () {
   display(this.checked ? "card" : "list");
 });
 
+$("#clear-all").on("click", function() {
+  clear();
+});
+
 // register events for updating the UI state based on the hash
 window.addEventListener("hashchange", updateUI);
 
@@ -113,8 +117,10 @@ function updateContent(sDisplay, sResult) {
 // updates UI state based on Hash
 function updateUI() {
   if (window._globals.ignoreNextHashChange) {
+    console.log("then we update UI on return")
     return;
   }
+  console.log("but really we get here")
   window._globals.sortFilterSearchRepos = window._globals.allRepos;
   let oURL = new URL("https://dummy.com");
   oURL.search = window.location.hash.substring(1);
@@ -122,7 +128,6 @@ function updateUI() {
   oURL.searchParams.get("sort") && sortLanguage(oURL.searchParams.get("sort"));
   oURL.searchParams.get("filter") && filter(oURL.searchParams.get("filter"));
   oURL.searchParams.get("search") && search(oURL.searchParams.get("search"));
-  oURL.searchParams.get("sortType") && typeSort(oURL.searchParams.get("sortType"));
   oURL.searchParams.get("sortLabel") && filterByLabel(oURL.searchParams.get("sortLabel"));
   // open details dialog
   oURL.searchParams.get("details") && showModal(parseInt(oURL.searchParams.get("details")) || oURL.searchParams.get("details"));
@@ -273,6 +278,8 @@ function generateItem (sDisplay, oRepo) {
 // fill project filter list based on detected projects
 function fillProjectFilter () {
   let aAllProjects = [];
+  aAllProjects.push("k8s-athenz")
+  aAllProjects.push("elide")
   window._globals.allRepos.map(repo => {
 
     let repoURL = repo.repository_url
@@ -281,13 +288,12 @@ function fillProjectFilter () {
     let org = splitURL[splitURL.length - 2];
     let vzOrgRepo = splitURL[splitURL.length - 1]
 
-
     if (org !== "yahoo" && org !== "VerizonDigital" && !aAllProjects.includes(org.toLowerCase())) {
       aAllProjects.push(org.toLowerCase())
     }
 
 
-    else if (org === "yahoo" && !aAllProjects.includes(vzOrgRepo.toLowerCase())) {
+    else if (org === "yahoo" && !vzOrgRepo.includes("k8s") && !vzOrgRepo.includes("elide") && !aAllProjects.includes(vzOrgRepo.toLowerCase())) {
      
       aAllProjects.push(vzOrgRepo.toLowerCase())
 
@@ -358,9 +364,6 @@ function filterByLabel (sParam) {
   let language = window.document.getElementById("sort");
   language.selectedIndex = 0;
   M.FormSelect.init(language);
-  let type = window.document.getElementById("sortType")
-  type.selectedIndex = 0;
-  M.FormSelect.init(type)
   let filter = window.document.getElementById("filter")
   filter.selectedIndex = 0;
   M.FormSelect.init(filter)
@@ -413,14 +416,20 @@ function filter(sParam) {
     
     let org = splitURL[splitURL.length - 2];
     let vzOrgRepo = splitURL[splitURL.length - 1]
+
+    console.log(sParam)
+    console.log(vzOrgRepo)
+
+    console.log(typeof(sParam))
+    console.log(typeof(vzOrgRepo))
   
   if (sParam !== "All") {
     
-    if (sParam === vzOrgRepo) {
+    if (sParam === vzOrgRepo.toLowerCase() || vzOrgRepo.includes(sParam)) {
       
       aResult.push(repo)
 
-    } else if (org !== "yahoo" && org !== "VerizonDigital" && sParam === org) {
+    } else if (org !== "yahoo" && org !== "VerizonDigital" && sParam === org.toLowerCase()) {
       
       aResult.push(repo) 
     } 
@@ -438,6 +447,8 @@ function filter(sParam) {
   // update hash
   updateHash("search", undefined);
   updateHash("filter", sParam);
+  updateHash("sort", undefined);
+  updateHash("sortLabel", undefined);
   // update select
   let oSelect = window.document.getElementById("filter");
   for (let i = 0; i < oSelect.options.length; i++) {
@@ -452,9 +463,6 @@ function filter(sParam) {
   let language = window.document.getElementById("sort");
   language.selectedIndex = 0;
   M.FormSelect.init(language);
-  let type = window.document.getElementById("sortType")
-  type.selectedIndex = 0;
-  M.FormSelect.init(type)
   let label = window.document.getElementById("sortLabel")
   label.selectedIndex = 0;
   M.FormSelect.init(label)
@@ -475,7 +483,7 @@ function sortLanguage(sParam) {
       languages = ["Java"]
     } else if (project === "Oak") {
      languages = ["Java", "Python"]
-    } else if (project.inlcudes("k8s")) {
+    } else if (project === "k8s-athenz-webhook" || project === "k8s-athenz-identity" || project === "k8s-athenz-syncer" || "k8s-athenz-istio-auth") {
       languages = ["Go"]
     } else {}
 
@@ -514,7 +522,10 @@ function sortLanguage(sParam) {
   window._globals.sortFilterSearchRepos = aResult;
   // update hash
   updateHash("sort", sParam)
-  updateHash("filter", "All");
+  updateHash("filter", undefined);
+  updateHash("search", undefined);
+  updateHash("sortLabel", undefined);
+
   // update select
   let oSelect = window.document.getElementById("sort");
   for (let i = 0; i < oSelect.options.length; i++) {
@@ -529,93 +540,90 @@ function sortLanguage(sParam) {
   let project = window.document.getElementById("filter");
   project.selectedIndex = 0;
   M.FormSelect.init(project);
-  let type = window.document.getElementById("sortType");
-  type.selectedIndex = 0;
-  M.FormSelect.init(type);
   let label = window.document.getElementById("sortLabel");
   label.selectedIndex = 0;
   M.FormSelect.init(label);
 }
 
-function typeSort(sParam) {
+// function typeSort(sParam) {
   
-  let aResult = [];
-  let type; 
+//   let aResult = [];
+//   let type; 
   
-  window._globals.allRepos.map(oRepo => {
-  let repoURL = oRepo.repository_url
-  let splitURL = repoURL.split('/');
+//   window._globals.allRepos.map(oRepo => {
+//   let repoURL = oRepo.repository_url
+//   let splitURL = repoURL.split('/');
 
-  if (splitURL[splitURL.length - 2] === "yahoo") {
-    let project = splitURL[splitURL.length - 1]
-    if (project === "elide") {
-      type = ["Data"]
-    } else if (project === "Oak") {
-     type = ["Data"]
-    } else if (project.inlcudes("k8s")) {
-      type = ["Dev Ops"]
-    } else {}
+//   if (splitURL[splitURL.length - 2] === "yahoo") {
+//     let project = splitURL[splitURL.length - 1]
+//     if (project === "elide") {
+//       type = ["Data"]
+//     } else if (project === "Oak") {
+//      type = ["Data"]
+//     } else if (project.inlcudes("k8s")) {
+//       type = ["Dev Ops"]
+//     } else {}
 
-  } else if (splitURL[splitURL.length - 2] === "VerizonDigital") {
-    type = ["Dev Ops"]
-  } else {
-    let project = splitURL[splitURL.length - 2]
-    if (project === "arkime") {
-      type =  ["Security"]
-    } else if (project === "AthenZ") {
-      type = ["Security"]
-    } else if (project === "denali-design") {
-      type =  ["Design"]
-    } else if (project === "screwdriver-cd") {
-      type =  ["Dev Ops"]
-    } else if (project === "vespa-engine") {
-      type = ["Data"]
-    } else if (project === "yavin-dev") {
-      type = ["Data"]
-    } else {}
-  }
+//   } else if (splitURL[splitURL.length - 2] === "VerizonDigital") {
+//     type = ["Dev Ops"]
+//   } else {
+//     let project = splitURL[splitURL.length - 2]
+//     if (project === "arkime") {
+//       type =  ["Security"]
+//     } else if (project === "AthenZ") {
+//       type = ["Security"]
+//     } else if (project === "denali-design") {
+//       type =  ["Design"]
+//     } else if (project === "screwdriver-cd") {
+//       type =  ["Dev Ops"]
+//     } else if (project === "vespa-engine") {
+//       type = ["Data"]
+//     } else if (project === "yavin-dev") {
+//       type = ["Data"]
+//     } else {}
+//   }
 
-  if (sParam !== "All") {
-  if (type.includes(sParam)) {
-    aResult.push(oRepo)
-  } else {
-    console.log("this is where we are")
-  } 
-} else { aResult = window._globals.allRepos
+//   if (sParam !== "All") {
+//   if (type.includes(sParam)) {
+//     aResult.push(oRepo)
+//   } else {
+//     console.log("this is where we are")
+//   } 
+// } else { aResult = window._globals.allRepos
 
-  }
+//   }
 
-});
+// });
 
         
-  createContent(aResult);
-  window._globals.sortFilterSearchRepos = aResult;
-  // update hash
-  updateHash("sortType", sParam)
-  updateHash("sort", undefined)
-  updateHash("filter", undefined);
+//   createContent(aResult);
+//   window._globals.sortFilterSearchRepos = aResult;
+//   // update hash
+//   updateHash("sortType", sParam)
+//   updateHash("sort", undefined)
+//   updateHash("filter", undefined);
 
-  // update select
-  let oSelect = window.document.getElementById("sortType");
-  for (let i = 0; i < oSelect.options.length; i++) {
-    if (oSelect.options[i].value === sParam) {
-      oSelect.selectedIndex = i;
-    }
-  }
-  M.FormSelect.init(oSelect);
-  // addLanguageIconsToFilter();
-  // reset search
-  window.document.getElementById("search").value = "";
-  const oSelected = window.document.getElementById("filter");
-  oSelected.selectedIndex = 0;
-  M.FormSelect.init(oSelected);
-  let language = window.document.getElementById("sort");
-  language.selectedIndex = 0;
-  M.FormSelect.init(language);
-  let label = window.document.getElementById("sortLabel");
-  label.selectedIndex = 0;
-  M.FormSelect.init(label);
-}
+//   // update select
+//   let oSelect = window.document.getElementById("sortType");
+//   for (let i = 0; i < oSelect.options.length; i++) {
+//     if (oSelect.options[i].value === sParam) {
+//       oSelect.selectedIndex = i;
+//     }
+//   }
+//   M.FormSelect.init(oSelect);
+//   // addLanguageIconsToFilter();
+//   // reset search
+//   window.document.getElementById("search").value = "";
+//   const oSelected = window.document.getElementById("filter");
+//   oSelected.selectedIndex = 0;
+//   M.FormSelect.init(oSelected);
+//   let language = window.document.getElementById("sort");
+//   language.selectedIndex = 0;
+//   M.FormSelect.init(language);
+//   let label = window.document.getElementById("sortLabel");
+//   label.selectedIndex = 0;
+//   M.FormSelect.init(label);
+// }
 
 // search the cards by chosen parameter (resets filter)
 function search(sParam) {
@@ -680,4 +688,40 @@ function display(sParam) {
   $("#" + (sParam !== "list" ? "rows" : "cards")).html("");
   $("#" + (sParam !== "list" ? "cards" : "list")).css("display", "block");
   $("#" + (sParam !== "list" ? "list" : "cards")).attr("style", "display: none !important");
+}
+
+function clear() {
+
+  const oSearch = window.document.getElementById("search");
+  oSearch.value = '';
+  M.updateTextFields();
+  // reset filter
+  const oSelect = window.document.getElementById("filter");
+  oSelect.selectedIndex = 0;
+  M.FormSelect.init(oSelect);
+  const language = window.document.getElementById("sort");
+  language.selectedIndex = 0;
+  M.FormSelect.init(language);
+  const label = window.document.getElementById("sortLabel");
+ label.selectedIndex = 0;
+  M.FormSelect.init(label);
+
+  updateHash("search", "");
+  updateHash("sort", "All");
+  updateHash("filter", "All");
+  updateHash('sortLabel', "All")
+
+  window._globals = {
+    allRepos: openIssues,
+    sortFilterSearchRepos: undefined,
+    ignoreNextHashChange: false
+  };
+  console.log("we're making it here, though!!!")
+  console.log(window._globals.ignoreNextHashChange)
+
+  console.log(openIssues.length)
+  console.log("yes that is what we want")
+
+  updateUI();
+  
 }

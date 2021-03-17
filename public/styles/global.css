@@ -17,11 +17,15 @@ nav {
   height: 84px !important;
 }
 
-.clear {
-  color:#6002d2; 
+#clear-all {
+  background-color:#6002d2; 
   font-size: 22px; 
   text-align: center;
   border-radius: 12px;
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 a {
@@ -182,7 +186,7 @@ textarea {
   background-color: #000;
 }
 
-#go-to-issue {
+.card-action.go-to-issue {
   background-color: #6002d2;
 }
 
