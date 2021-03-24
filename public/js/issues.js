@@ -5,29 +5,32 @@ window._globals = {
     ignoreNextHashChange: undefined
   };
 
-  let openIssues = []
-  let closedIssues = []
+  let allIssues = [];
+  let openIssues = [];
+  let closedIssues = [];
 
-  const orgList = ["arkime", "AthenZ", "denali-design", "yahoo", "screwdriver-cd", "vespa-engine", "VerizonDigital", "yavin-dev"]
+  const orgList = ["arkime", "AthenZ", "denali-design", "yahoo", "screwdriver-cd", "vespa-engine", "VerizonDigital", "VerizonMedia", "yavin-dev"]
 
   $.get('/allIssues', (data, status) => {
+    closedIssues = [];
+    openIssues = [];
     data.map((issue) => {
+
     let repoURL = issue.repository_url
     let splitURL = repoURL.split('/');
 
     let org = splitURL[splitURL.length - 2]
     let project = splitURL[splitURL.length - 1]
     
-    if (orgList.includes(org) && issue.state === "open") {
+    if (orgList.includes(org) && issue.state === "open" && !openIssues.includes(issue)) {
         openIssues.push(issue)
-      } else if (orgList.includes(org) && issue.state === "closed") {
+      } else if (orgList.includes(org) && issue.state === "closed" && !closedIssues.includes(issue)) {
         closedIssues.push(issue)
       } else { 
         return
       }
 
     })
-
 
     $("#count").text(openIssues.length ? openIssues.length : 0);
     $("#count-closed").text(closedIssues.length ? closedIssues.length : 0);
@@ -117,10 +120,8 @@ function updateContent(sDisplay, sResult) {
 // updates UI state based on Hash
 function updateUI() {
   if (window._globals.ignoreNextHashChange) {
-    console.log("then we update UI on return")
     return;
   }
-  console.log("but really we get here")
   window._globals.sortFilterSearchRepos = window._globals.allRepos;
   let oURL = new URL("https://dummy.com");
   oURL.search = window.location.hash.substring(1);
@@ -161,7 +162,6 @@ function stringToColour(sString) {
 
 // fills the HTML template for a project item
 function generateItem (sDisplay, oRepo) {
-  // console.log(Object.entries(oRepo))
   let sHTML;
   if (sDisplay === "list") {
     sHTML = window.document.getElementById("row-template").getElementsByTagName("tr")[0].outerHTML;
@@ -195,11 +195,14 @@ function generateItem (sDisplay, oRepo) {
       sHTML = sHTML.replace("[[status]]", "Java")
       sHTML = sHTML.replace("[[type]]", "Data")
     } else if (project === "Oak") {
-      sHTML = sHTML.replace("[[status]]", "Java, Python")
-      sHTML = sHTML.replace("[[type]]", "Data")
+      sHTML = sHTML.replace("[[status]]", "Java")
+      sHTML = sHTML.replace("[[type]]", "Data") 
+      } else if (project === "python-screwdrivercd") {
+        sHTML = sHTML.replace("[[status]]", "Python")
+        sHTML = sHTML.replace("[[type]]", "Dev Ops")
     } else if (project === "k8s-athenz-webhook" || project === "k8s-athenz-identity" || project === "k8s-athenz-syncer" || "k8s-athenz-istio-auth") {
       sHTML = sHTML.replace("[[status]]", "Go")
-      sHTML = sHTML.replace("[[type]]", "Dev Ops")
+      sHTML = sHTML.replace("[[type]]", "Dev Ops")    
     } else {}
 
   } else if (splitURL[splitURL.length - 2] === "VerizonDigital") {
@@ -301,7 +304,7 @@ function fillProjectFilter () {
       
       aAllProjects.push(vzOrgRepo.toLowerCase())
     
-    } else { console.log("we already have this project") }
+    } else {}
 
   });
   // sort alphabetically and reverse
@@ -330,7 +333,6 @@ function filterByLabel (sParam) {
     for (let i=0; i < labels.length; i++) {
       if (!aAllLabels.includes(labels[i].name) && labels[i].name !== "HackTogether")
       aAllLabels.push(labels[i].name)
-      console.log(aAllLabels)
     }
 
     if (aAllLabels.includes(sParam)) {
@@ -387,7 +389,6 @@ function filterByLabel (sParam) {
 //   } else if (sParam === "status") {
 //     // sort by InnerSource score
 //     aResult = closedIssues
-//     console.log(sParam)
 //   } else {
 //     // sort numerically
 //     aResult = window._globals.sortFilterSearchRepos.sort((a, b) => b[sParam] - a[sParam]);
@@ -416,12 +417,6 @@ function filter(sParam) {
     
     let org = splitURL[splitURL.length - 2];
     let vzOrgRepo = splitURL[splitURL.length - 1]
-
-    console.log(sParam)
-    console.log(vzOrgRepo)
-
-    console.log(typeof(sParam))
-    console.log(typeof(vzOrgRepo))
   
   if (sParam !== "All") {
     
@@ -482,7 +477,9 @@ function sortLanguage(sParam) {
     if (project === "elide") {
       languages = ["Java"]
     } else if (project === "Oak") {
-     languages = ["Java", "Python"]
+     languages = ["Java"]
+    } else if (project === "python-screwdrivercd") {
+      languages = ["Python"]
     } else if (project === "k8s-athenz-webhook" || project === "k8s-athenz-identity" || project === "k8s-athenz-syncer" || "k8s-athenz-istio-auth") {
       languages = ["Go"]
     } else {}
@@ -510,7 +507,6 @@ function sortLanguage(sParam) {
   if (languages.includes(sParam)) {
     aResult.push(oRepo)
   } else {
-    console.log("this is where we are")
   } 
 } else { aResult = window._globals.allRepos
 
@@ -587,7 +583,6 @@ function sortLanguage(sParam) {
 //   if (type.includes(sParam)) {
 //     aResult.push(oRepo)
 //   } else {
-//     console.log("this is where we are")
 //   } 
 // } else { aResult = window._globals.allRepos
 
@@ -716,11 +711,6 @@ function clear() {
     sortFilterSearchRepos: undefined,
     ignoreNextHashChange: false
   };
-  console.log("we're making it here, though!!!")
-  console.log(window._globals.ignoreNextHashChange)
-
-  console.log(openIssues.length)
-  console.log("yes that is what we want")
 
   updateUI();
   

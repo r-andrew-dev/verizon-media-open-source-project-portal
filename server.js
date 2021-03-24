@@ -30,9 +30,9 @@ app.use(express.static(__dirname + '/public'));
 //     res.json({message: 'hooray! welcome!'})
 // }) 
 
-// app.use('/api', routes);
-hackTogetherIssues();
+// app.use('/api', routes); 
 loadRepos();
+hackTogetherIssues();
 // hackTogetherIssues();
 
 // load repos.json file and display the list of projects from it - should be re-tooled to do this rather than creating on the fly everytime ß
